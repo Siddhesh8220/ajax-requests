@@ -12,22 +12,26 @@ let name = new Set();
 let total = 0;
 
 async function findData(battle) {
+  // store all attcker kings with name as key and count as value in object
   attacker_kings[battle["attacker_king"]] = attacker_kings[
     battle["attacker_king"]
   ]
     ? attacker_kings[battle["attacker_king"]] + 1
     : 1;
 
+  // store all defender kings with name as key and count as value in object
   defender_kings[battle["defender_king"]] = defender_kings[
     battle["defender_king"]
   ]
     ? defender_kings[battle["defender_king"]] + 1
     : 1;
 
+  // store all regions with name as key and count as value in object
   regions[battle["region"]] = regions[battle["region"]]
     ? regions[battle["region"]] + 1
     : 1;
 
+  //Store battle type in set
   battle_type.add(battle["battle_type"]);
 
   name.add(battle["name"]);
@@ -47,10 +51,12 @@ async function findData(battle) {
 async function getSpecificData() {
   data.forEach(findData);
 
+  //get attacker king with most battle(most active attacker king)
   attacker = Object.keys(attacker_kings).reduce(function (a, b) {
     return attacker_kings[a] > attacker_kings[b] ? a : b;
   });
 
+  //get defender king with most battle(most active defender king)
   defender = Object.keys(defender_kings).reduce(function (a, b) {
     return defender_kings[a] > defender_kings[b] ? a : b;
   });
@@ -80,8 +86,12 @@ async function getSpecificData() {
 }
 
 async function getData() {
-  newData = await getSpecificData();
-  console.log(newData);
+  try {
+    newData = await getSpecificData();
+    console.log(newData);
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 getData();

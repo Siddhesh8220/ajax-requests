@@ -38,16 +38,20 @@ async function getSpecificData(item) {
 }
 
 async function getData() {
-  let apiResponse = await axios.get(
-    `https://api.github.com/search/repositories?q=${input}`,
-    {
-      "Content-Type": "application/json",
-    }
-  );
+  try {
+    let apiResponse = await axios.get(
+      `https://api.github.com/search/repositories?q=${input}`,
+      {
+        "Content-Type": "application/json",
+      }
+    );
 
-  const data = apiResponse.data["items"];
-  let newData = await Promise.all(data.map(getSpecificData));
-  console.log(newData);
+    const data = apiResponse.data["items"];
+    let newData = await Promise.all(data.map(getSpecificData));
+    console.log(newData);
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 getData();
